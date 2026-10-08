@@ -1,0 +1,114 @@
+{
+  "A001": {
+    "is_fraud": true,
+    "scenario": "account_takeover"
+  },
+  "A002": {
+    "is_fraud": false,
+    "scenario": "new_phone"
+  },
+  "A003": {
+    "is_fraud": false,
+    "scenario": "high_spender"
+  },
+  "A004": {
+    "is_fraud": true,
+    "scenario": "impossible_travel"
+  },
+  "A005": {
+    "is_fraud": true,
+    "scenario": "impossible_travel"
+  },
+  "A006": {
+    "is_fraud": false,
+    "scenario": "travel_with_notice"
+  },
+  "A007": {
+    "is_fraud": true,
+    "scenario": "account_takeover"
+  },
+  "A008": {
+    "is_fraud": false,
+    "scenario": "big_planned_purchase"
+  },
+  "A009": {
+    "is_fraud": false,
+    "scenario": "new_phone"
+  },
+  "A010": {
+    "is_fraud": false,
+    "scenario": "travel_with_notice"
+  },
+  "A011": {
+    "is_fraud": false,
+    "scenario": "new_phone"
+  },
+  "A012": {
+    "is_fraud": false,
+    "scenario": "big_planned_purchase"
+  },
+  "A013": {
+    "is_fraud": false,
+    "scenario": "high_spender"
+  },
+  "A014": {
+    "is_fraud": false,
+    "scenario": "new_phone"
+  },
+  "A015": {
+    "is_fraud": true,
+    "scenario": "card_testing"
+  },
+  "A016": {
+    "is_fraud": true,
+    "scenario": "card_testing"
+  },
+  "A017": {
+    "is_fraud": true,
+    "scenario": "crypto_new_device"
+  },
+  "A018": {
+    "is_fraud": false,
+    "scenario": "big_planned_purchase"
+  },
+  "A019": {
+    "is_fraud": true,
+    "scenario": "impossible_travel"
+  },
+  "A020": {
+    "is_fraud": false,
+    "scenario": "drive_to_neighbor"
+  },
+  "A021": {
+    "is_fraud": true,
+    "scenario": "crypto_new_device"
+  },
+  "A022": {
+    "is_fraud": true,
+    "scenario": "gift_card_spree"
+  },
+  "A023": {
+    "is_fraud": true,
+    "scenario": "card_testing"
+  },
+  "A024": {
+    "is_fraud": true,
+    "scenario": "account_takeover"
+  },
+  "A025": {
+    "is_fraud": false,
+    "scenario": "drive_to_neighbor"
+  },
+  "A026": {
+    "is_fraud": false,
+    "scenario": "travel_with_notice"
+  },
+  "A027": {
+    "is_fraud": true,
+    "scenario": "gift_card_spree"
+  },
+  "A028": {
+    "is_fraud": true,
+    "scenario": "gift_card_spree"
+  }
+}

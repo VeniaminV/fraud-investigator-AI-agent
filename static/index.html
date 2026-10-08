@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fraud Case Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #e9f0ec; --sheet: #f7faf8; --ink: #17243a; --muted: #5a6b7d; --line: #c9d6cf;
+  --fraud: #b3261e; --legit: #2e6b3f; --review: #9a6200; --focus: #2457c5;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #121a17; --sheet: #1a2420; --ink: #e6eeea; --muted: #94a69d; --line: #2f3d37;
+          --fraud: #ff7b70; --legit: #7fcf95; --review: #f0b445; --focus: #8fb0ff; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.5 "Archivo", system-ui, sans-serif; }
+header { padding: 28px 24px 8px; max-width: 1180px; margin: 0 auto; }
+h1 { font-size: 34px; font-weight: 800; font-stretch: 70%; letter-spacing: -0.01em; margin: 0; line-height: 1.1; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+main { max-width: 1180px; margin: 0 auto; padding: 16px 24px 48px; display: grid; gap: 24px;
+       grid-template-columns: minmax(300px, 380px) 1fr; align-items: start; }
+h2 { font-size: 20px; font-weight: 700; font-stretch: 80%; margin: 0 0 10px; }
+.queue { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+.queue button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 52px 1fr auto; gap: 2px 10px;
+  width: 100%; padding: 10px 6px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.queue button:hover { background: var(--sheet); }
+.queue button[aria-pressed="true"] { background: var(--sheet); box-shadow: inset 4px 0 0 var(--ink); }
+.queue button:focus-visible, .btn:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.id { font-weight: 700; font-variant-numeric: tabular-nums; }
+.amt { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.where { color: var(--muted); font-size: 14px; grid-column: 2 / 4; }
+.rules { grid-column: 2 / 4; display: flex; flex-wrap: wrap; gap: 4px; }
+.rule { font-size: 12px; padding: 1px 7px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-top: 6px solid var(--ink); padding: 24px;
+  min-height: 420px; }
+.empty { color: var(--muted); max-width: 46ch; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px 24px; margin: 16px 0 20px; }
+.facts dt { color: var(--muted); font-size: 13px; }
+.facts dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.btn { font: inherit; font-weight: 700; font-stretch: 85%; font-size: 17px; background: var(--ink); color: var(--sheet);
+  border: 0; padding: 11px 20px; border-radius: 4px; cursor: pointer; }
+.btn:disabled { opacity: .55; cursor: progress; }
+.keyrow { display: none; gap: 8px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
+.keyrow.show { display: flex; }
+input { font: inherit; padding: 9px 10px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 4px; }
+.status { margin-top: 12px; color: var(--muted); min-height: 1.5em; }
+.status.error { color: var(--fraud); }
+.verdict { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; margin: 8px 0 18px; }
+.verdict .meter-wrap { flex: 1 1 240px; max-width: 420px; }
+.stamp { transform: rotate(-8deg); border: 4px double currentColor;
+  padding: 6px 14px 4px; font-size: 30px; font-weight: 800; font-stretch: 62%; line-height: 1; letter-spacing: .04em;
+  border-radius: 6px; opacity: .9; }
+.stamp small { display: block; font-size: 13px; font-weight: 600; letter-spacing: 0; font-stretch: 85%; text-align: center; }
+.stamp.fraud { color: var(--fraud); } .stamp.legitimate { color: var(--legit); } .stamp.needs_review { color: var(--review); }
+@media (prefers-reduced-motion: no-preference) {
+  .stamp { animation: thud .35s cubic-bezier(.2,1.6,.4,1) both; }
+  @keyframes thud { from { transform: rotate(-8deg) scale(1.8); opacity: 0; } }
+}
+.meter { height: 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 5px; margin-top: 6px; }
+.meter span { display: block; height: 100%; border-radius: 4px; }
+.summary { font-size: 18px; max-width: 64ch; margin: 0 0 16px; }
+.report ul { padding-left: 20px; margin: 6px 0 18px; max-width: 70ch; }
+.report li { margin-bottom: 4px; }
+.trace { padding-left: 22px; color: var(--muted); font-size: 14px; }
+.trace code { color: var(--ink); font-size: 13px; }
+.meta { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 10px; margin-top: 18px; }
+h3 { font-size: 16px; font-weight: 700; margin: 18px 0 4px; }
+@media (max-width: 820px) {
+  main { grid-template-columns: 1fr; padding: 12px 16px 40px; }
+  header { padding: 20px 16px 4px; }
+  .sheet { padding: 18px 16px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Fraud case desk</h1>
+  <p>A rules engine flagged these card transactions. Pick one and an AI agent will dig through the account's history, decide if it's really fraud, and write up the case.</p>
+</header>
+<main>
+  <section aria-labelledby="queue-title">
+    <h2 id="queue-title">Open alerts</h2>
+    <ul class="queue" id="queue"><li class="empty">Loading alerts…</li></ul>
+  </section>
+  <section class="sheet" id="case" aria-live="polite">
+    <p class="empty">Choose an alert on the left to open its case file.</p>
+  </section>
+</main>
+<script>
+const RULES = { HIGH_AMOUNT: "Over $1,500", AMOUNT_SPIKE: "Amount spike", NEW_DEVICE: "New device",
+  NEW_LOCATION: "New location", VELOCITY: "Rapid charges", HIGH_RISK_MERCHANT: "High-risk merchant", ODD_HOUR: "Odd hour" };
+const ACTIONS = { block_card_and_contact_customer: "Block the card and contact the customer",
+  contact_customer_to_verify: "Contact the customer to verify", close_alert_no_action: "Close the alert, no action" };
+const VERDICTS = { fraud: "Fraud", legitimate: "Legit", needs_review: "Review" };
+const money = n => n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let alerts = [], current = null, demoKey = "";
+try { demoKey = localStorage.getItem("demoKey") || ""; } catch {}
+
+async function loadAlerts() {
+  const q = document.getElementById("queue");
+  try {
+    alerts = await (await fetch("alerts")).json();
+  } catch {
+    q.innerHTML = '<li class="empty">Couldn\'t load alerts. Check that the server is running, then refresh.</li>';
+    return;
+  }
+  q.innerHTML = alerts.map(a => `<li><button data-id="${a.alert_id}" aria-pressed="false">
+    <span class="id">${a.alert_id}</span><span>${esc(a.merchant)}</span><span class="amt">${money(a.amount)}</span>
+    <span class="where">${esc(a.city)}, ${a.created_at.slice(5, 16)}</span>
+    <span class="rules">${a.rules.map(r => `<span class="rule">${RULES[r] || r}</span>`).join("")}</span>
+  </button></li>`).join("");
+  q.onclick = e => { const b = e.target.closest("button"); if (b) openCase(b.dataset.id); };
+}
+
+function openCase(id) {
+  current = alerts.find(a => a.alert_id === id);
+  document.querySelectorAll(".queue button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
+  document.getElementById("case").innerHTML = `
+    <h2>Alert ${id} on account ${current.account_id}</h2>
+    <dl class="facts">
+      <div><dt>Amount</dt><dd>${money(current.amount)}</dd></div>
+      <div><dt>Merchant</dt><dd>${esc(current.merchant)}</dd></div>
+      <div><dt>Where</dt><dd>${esc(current.city)}</dd></div>
+      <div><dt>Flagged at</dt><dd>${current.created_at}</dd></div>
+    </dl>
+    <button class="btn" id="go">Investigate</button>
+    <div class="keyrow" id="keyrow"><input id="key" type="password" placeholder="Demo key" aria-label="Demo key">
+      <span class="empty">This demo is protected. Enter the key, then press Investigate.</span></div>
+    <p class="status" id="status"></p>
+    <div id="report"></div>`;
+  document.getElementById("go").onclick = run;
+  if (matchMedia("(max-width: 820px)").matches) document.getElementById("case").scrollIntoView({ block: "start" });
+}
+
+async function run() {
+  const go = document.getElementById("go"), status = document.getElementById("status"), keyInput = document.getElementById("key");
+  if (keyInput.value) { demoKey = keyInput.value; try { localStorage.setItem("demoKey", demoKey); } catch {} }
+  go.disabled = true; status.className = "status";
+  const t0 = Date.now();
+  const tick = setInterval(() => status.textContent = `Investigating… ${Math.round((Date.now() - t0) / 1000)}s. The agent is pulling account history and checking patterns.`, 250);
+  try {
+    const res = await fetch(`investigate/${current.alert_id}`, { method: "POST", headers: demoKey ? { "X-Demo-Key": demoKey } : {} });
+    if (res.status === 401) { document.getElementById("keyrow").classList.add("show"); throw new Error("This demo needs a key."); }
+    if (!res.ok) throw new Error(`The server returned ${res.status}. Check the logs, then try again.`);
+    render(await res.json());
+    status.textContent = "";
+  } catch (e) {
+    status.className = "status error"; status.textContent = e.message;
+  } finally { clearInterval(tick); go.disabled = false; }
+}
+
+function render(r) {
+  const p = r.report, color = `var(--${p.verdict === "legitimate" ? "legit" : p.verdict === "fraud" ? "fraud" : "review"})`;
+  document.getElementById("report").innerHTML = `<div class="report">
+    <div class="verdict">
+      <div class="stamp ${p.verdict}" role="img" aria-label="Verdict: ${p.verdict}">${VERDICTS[p.verdict]}<small>risk ${p.risk_score}/100</small></div>
+      <div class="meter-wrap"><h3>Risk score ${p.risk_score} of 100</h3>
+        <div class="meter"><span style="width:${p.risk_score}%;background:${color}"></span></div></div>
+    </div>
+    <p class="summary">${esc(p.summary)}</p>
+    <h3>Evidence</h3><ul>${p.key_evidence.map(e => `<li>${esc(e)}</li>`).join("")}</ul>
+    <h3>Recommended action</h3><p>${ACTIONS[p.recommended_action] || esc(p.recommended_action)}</p>
+    <h3>What the agent checked</h3>
+    <ol class="trace">${r.steps.map(s => `<li><code>${s.tool}</code> ${esc(Object.values(s.input).join(", "))}${s.error ? " (failed)" : ""}</li>`).join("")}</ol>
+    <p class="meta">Ran on ${r.model} in ${r.seconds}s with ${r.steps.length} tool calls and ${r.usage.input_tokens + r.usage.output_tokens} tokens (about $${r.est_cost_usd}).</p>
+  </div>`;
+}
+loadAlerts();
+</script>
+</body>
+</html>

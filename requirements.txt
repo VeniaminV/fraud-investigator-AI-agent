@@ -1,0 +1,6 @@
+anthropic>=1.12
+fastapi>=0.142
+mangum>=0.22
+python-dotenv>=1.2
+uvicorn>=0.53
+boto3

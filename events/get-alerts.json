@@ -1,0 +1,13 @@
+{
+  "version": "2.0",
+  "routeKey": "$default",
+  "rawPath": "/alerts",
+  "rawQueryString": "",
+  "headers": {"host": "localhost"},
+  "requestContext": {
+    "http": {"method": "GET", "path": "/alerts", "protocol": "HTTP/1.1", "sourceIp": "127.0.0.1", "userAgent": "test"},
+    "domainName": "localhost", "stage": "$default", "requestId": "test", "accountId": "123456789012",
+    "apiId": "local", "time": "07/Oct/2026:12:00:00 +0000", "timeEpoch": 0
+  },
+  "isBase64Encoded": false
+}
