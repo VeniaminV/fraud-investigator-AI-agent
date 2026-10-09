@@ -6,7 +6,9 @@ An AI agent that investigates flagged credit card transactions. A simple rules e
 
 Built with Python, the Claude API (tool use), SQLite, and FastAPI. Packaged with Docker for deployment on AWS Lambda.
 
+https://ecy3pdmp63ckr4rrlhhdnehrgy0ilsud.lambda-url.us-west-2.on.aws/
 <!-- Add a screenshot of the demo page here: ![Demo](docs/demo.png) -->
+<img width="1122" height="677" alt="image" src="https://github.com/user-attachments/assets/d1935fc7-3516-4305-87ce-34014fed887d" />
 
 ## Results
 
